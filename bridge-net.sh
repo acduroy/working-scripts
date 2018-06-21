@@ -28,7 +28,7 @@ echo -n "Enter bridge name [ex. br0]: "; read BNAME
 
 # temporary name
 # create a bridge name
-brctl addbr $BNAME
+sudo brctl addbr $BNAME
 
 
 
