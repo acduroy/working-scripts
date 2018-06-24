@@ -8,7 +8,7 @@ while [ $# -gt 0 ]; do
       echo -n "Please enter nic device name (e.g. ens0) : "; read NIC
       echo -n "Please enter upstream dns addr: "; read NEXT_DNS
       echo -n "Please enter default gateway addr: "; read GATEWAY
-      echo -n "Please enter ntp server addr: "; read NTP
+#     echo -n "Please enter ntp server addr: "; read NTP
       echo -n "Please enter dhcp range (e.g. x.x.x.a,x.x.x.b): "; read DHCP_RNG
 #      echo -n "Please enter tftp range (e.g. x.x.x.a,x.x.x.b): "; read TFTP_RNG
       
@@ -81,7 +81,7 @@ dhcp-range=$NIC,$DHCP_RNG,72h
 #dhcp-range=tftp,$TFTP_RNG  
 #dhcp-host=gw,$GATEWAY,36h # Any host name 'gw' will get this address
 dhcp-option=option:router,$GATEWAY
-dhcp-option=option:ntp-server,$NTP
+#dhcp-option=option:ntp-server,$NTP
 dhcp-option=19,0 # ip-forwarding off
 #dhcp-option=44,192.168.0.5 # set netbios-over-TCP/IP aka WINS
 #dhcp-option=45,192.168.0.5 # netbios datagram distribution server
