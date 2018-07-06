@@ -7,6 +7,9 @@
 
 clear
 echo -n "This script will build a maas server for OS deployment"
+echo -n "The server should have NAT enabled to continue the installation"
+#check if server is NAT enabled
+
 echo -n "Need your username, email address account and kvm ip address to proceed, pls provide. Thanks !!! "
 echo
 echo -n "Do you have these informations with you? [Y/n]: "; read ANS1
