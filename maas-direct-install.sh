@@ -22,6 +22,7 @@ echo -n "Enter your kvm host ip address: "; read KVM_HOST
 echo -n "Enter your kvm host username: "; read KVM_USER
 echo -n "Are all these informations correct? [Y/n]: "; read ANS2
 ANS2=$(echo $ANS2 | awk '{print toupper($0)}')
+
 if [[ ANS2 == "N" ]]; then
    exit
 fi
@@ -40,21 +41,20 @@ sudo apt install maas -y
 
 # Create admin user
 # sudo maas createadmin  
-
-
 # Alternative way to create MAAS user with script
+printf "*** Creating an ADMIN user ... ***\n"
 sudo maas createadmin --username=$PROFILE --emaail=$EMAIL_ADDRESS
 #ex. username = "vmaas201", password = "Super123"
 
 echo -n "Now SSH keys need to be imported - this can be done at web ui"
 echo -n "Now login to MAAS web UI to complete the user configuration"
 echo -n "At any web browser do:"
-echo -n "http://<your_maas_ip>:5240/MAAS"
-echo "\n"
+printf "http://<your_maas_ip>:5240/MAAS\n"
+
 echo -n "At MAAS web UI to do:"
 echo -n "Fill in the details for the initial MAAS configuration"  
-echo -n "For DNS forwarder value, use nslookup command to get the DNS ip" 
-echo "\n"
+printf "For DNS forwarder value, use nslookup command to get the DNS ip\n" 
+
 echo -n "Region name = <MAAS name>"   
 echo -n "DNS forwarder = <Upstream DNS ip address from nslookup yahoo.com>"   
 echo -n "Choosing source = mass.io and Ubuntu images = 16.04 LTS release"
@@ -80,28 +80,25 @@ echo -n "Go to the "Subnets" tab"
 echo -n "Add Fabric to the MAAS in networks"
 echo -n "Add subnet to the Fabric"  
 
-
-echo -n "# At "Add subnet" sub-page do: \n 
+echo -n "At 'Add subnet' sub-page do:" 
 # Fill in the details for the dynamic range \n
-Name = <name-of-subnet> \n
-CIDR = <ex. 192.168.101.0/24> \n
-Fabric & VLAN = <choose the fabric to be linked with the subnet> \n
-Reserve range = <enter the start IP address and the end IP address> \n
-
+echo -n "Name = <name-of-subnet>"
+echo -n "CIDR = <ex. 192.168.101.0/24>"
+echo -n "Fabric & VLAN = <choose the fabric to be linked with the subnet>"
+echo -n "Reserve range = <enter the start IP address and the end IP address>"
 
 # Turn on DHCP \n
-Select default VLAN assigned to the Fabric under column VLAN \n
-Set the Rack controller that will manage DHCP (in this case the "MAAS") \n
-From the "Take action" button, select "Provide DHCP" \n
+echo -n "Select default VLAN assigned to the Fabric under column VLAN"
+echo -n "Set the Rack controller that will manage DHCP (in this case the 'MAAS'"
+printf "From the 'Take action' button, select 'Provide DHCP' \n"
 
 # Enlist and commission servers \n
 # At target node BIOS: \n
-Set all servers to PXE boot (make sure the right NIC interface as the boot device) \n
-
-Set IPMI to DHCP mode  \n
-Boot each machine. Machines will be automatically enlisted in the Nodes tab \n
-Select all machines and "Commission" them using the "Take action" button \n
-Once machines are in "Ready" status, you can start deploying \n
+echo -n "Set all servers to PXE boot (make sure the right NIC interface as the boot device)"
+echo -n "Set IPMI to DHCP mode"
+echo -n "Boot each machine. Machines will be automatically enlisted in the Nodes tab"
+echo -n "Select all machines and "Commission" them using the "Take action" button"
+printf "Once machines are in "Ready" status, you can start deploying\n"
 
 # To add virtual node to these steps below: \n
 # MAAS with KVM  \n
