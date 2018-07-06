@@ -11,7 +11,7 @@ echo -n "Need your username, email address account and kvm ip address to proceed
 echo
 echo -n "Do you have these informations with you? [Y/n]: "; read ANS1
 #ANS1=$(echo $ANS1 | awk '{print toupper($0)}')
-exit
+return
 if [[ ANS1 == "n" ]]; then
    exit
 fi
