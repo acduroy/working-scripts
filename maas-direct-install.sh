@@ -7,8 +7,9 @@
 
 clear
 echo -n "This script will build a maas server for OS deployment"
-echo -n "Need your username, email address account and kvm ip address to proceed, pls provide. Thanks !!! \n"
-echo -n "Do you have these informations? [Y/n]: "; read ANS1
+echo -n "Need your username, email address account and kvm ip address to proceed, pls provide. Thanks !!! "
+print "\n"
+echo -n "Do you have these informations with you? [Y/n]: "; read ANS1
 ANS1=$(echo $ANS1 | awk '{print toupper($0)}')
 if [[ ANS1 == "N" ]]; then
    exit
