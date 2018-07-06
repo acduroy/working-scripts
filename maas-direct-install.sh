@@ -15,10 +15,7 @@ sudo updatedb
 IPT=$(locate -c -n 10 -i "rules.v4" /etc/iptables)
 if [[ IPT -eq 0 ]]
 then 
-   printf " Output of IPT= $IPT\n"  
-   echo "Downloading persistent iptable rules.v4 ..."
-   install packages
-   sudo apt-get install -y iptables-persistent
+   /bin/bash nat-script-nocheck.sh
 else
    echo "iptable rules.v4 exist, no need to download !!!"
    printf "This server was check to have a NAT service enabled !!!\n" 
