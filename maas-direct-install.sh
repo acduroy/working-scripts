@@ -7,11 +7,25 @@
 
 clear
 echo -n "This script will build a maas server for OS deployment"
-echo -n "The server should have NAT enabled to continue the installation"
-#check if server is NAT enabled
+printf "The server should have NAT enabled to continue the installation\n"
 
-echo -n "Need your username, email address account and kvm ip address to proceed, pls provide. Thanks !!! "
-echo
+#check if server is NAT enabled
+echo "Check if ip tables rule.v4 exist"
+sudo updatedb
+IPT=$(locate -c -n 10 -i "rules.v4" /etc/iptables)
+if [[ IPT -eq 0 ]]
+then 
+   printf " Output of IPT= $IPT\n"  
+   echo "Downloading persistent iptable rules.v4 ..."
+   install packages
+   sudo apt-get install -y iptables-persistent
+else
+   echo "iptable rules.v4 exist, no need to download !!!"
+   printf "This server was check to have a NAT service enabled !!!\n" 
+fi
+
+echo "Now setting up MAAS  to deploy OS base installation ..."
+printf "Need your username, email address account and kvm ip address to proceed, pls provide. Thanks !!!\n "
 echo -n "Do you have these informations with you? [Y/n]: "; read ANS1
 ANS1=$(echo $ANS1 | awk '{print toupper($0)}')
 
