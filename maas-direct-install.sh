@@ -9,8 +9,8 @@ clear
 echo -n "This script will build a maas server for OS deployment"
 echo -n "Need your username, email address account and kvm ip address to proceed, pls provide. Thanks !!! \n"
 echo -n "Do you have these informations? [Y/n]: "; read ANS1
-
-if [[ ANS1 == "n" ]]; then
+ANS1=$(echo $ANS1 | awk '{print toupper($0)}')
+if [[ ANS1 == "N" ]]; then
    exit
 fi
 read -p "Press any key to proceed the installation ..."
@@ -19,7 +19,10 @@ echo -n "Enter your email address here: "; read EMAIL_ADDRESS
 echo -n "Enter your kvm host ip address: "; read KVM_HOST
 echo -n "Enter your kvm host username: "; read KVM_USER
 echo -n "Are all these informations correct? [Y/n]: "; read ANS2
-if [[ ANS2
+ANS2=$(echo $ANS2 | awk '{print toupper($0)}')
+if [[ ANS2 == "N" ]]; then
+   exit
+fi
 clear 
 
 # At MAAS server do:
