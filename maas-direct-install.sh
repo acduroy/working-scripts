@@ -24,6 +24,8 @@ else
    printf "This server was check to have a NAT service enabled !!!\n"
 fi
 
+#Installing MAAS
+clear
 echo "Now setting up MAAS  to deploy OS base installation ..."
 printf "Need your username, email address account and kvm ip address to proceed, pls provide. Thanks !!!\n "
 echo -n "Do you have these informations with you? [Y/n]: "; read ANS1
