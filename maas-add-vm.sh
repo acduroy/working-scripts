@@ -1,11 +1,11 @@
 #!/bin/bash
 printf "This script will add VM node(s) to the MAAS network\n"
 read -p "Presss any key to continue ..."
-sudo apt install libvirt-bin -y
-printf "Generating SSH private/pub key 'maas' user.. (in case no private/pub key generated)\n"
-echo -n "Remember this is key pair for 'maas' user!!!!"
-sudo chsh -s /bin/bash maas
-sudo su - maas
+#sudo apt install libvirt-bin -y
+#printf "Generating SSH private/pub key 'maas' user.. (in case no private/pub key generated)\n"
+#echo -n "Remember this is key pair for 'maas' user!!!!"
+#sudo chsh -s /bin/bash maas
+#sudo su - maas
 ssh-keygen -f ~/.ssh/id_rsa -N ''
 
 printf "Now copying the public key to the target node (from MAAS to KVM host in this case)\n"
