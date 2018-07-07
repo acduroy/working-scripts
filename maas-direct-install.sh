@@ -1,5 +1,5 @@
 #!/bin/bash
-#Prerequisite: 
+# Prerequisite: 
 # 1) Ubuntu Server OS installed on MAAS server in this case 16.04 LTS release
 # 2) MAAS server should be NAT enabled before MAAS installation
 # Below steps will install maas from packages
@@ -30,22 +30,28 @@ if [[ $ANS1 == "N" ]]; then
    exit 1
 fi
 read -p "Press any key to proceed the installation ..."
-ifconfig
-nslookup yahoo.com
-echo -n "Enter your username here: "; read PROFILE
-echo -n "Enter your email address here: "; read EMAIL_ADDRESS
-echo -n "Enter your kvm host ip address: "; read KVM_HOST
-echo -n "Enter your kvm host username: "; read KVM_USER
-echo -n "Are all these informations correct? [Y/n]: "; read ANS2
-ANS2=$(echo $ANS2 | awk '{print toupper($0)}')
 
-if [[ $ANS2 == "N" ]]; then
-   exit
-fi
-clear 
+#Loop until correct informations are entered
+while (true)
+do
+   ifconfig
+   nslookup yahoo.com
+   echo -n "Enter your username here: "; read PROFILE
+   echo -n "Enter your email address here: "; read EMAIL_ADDRESS
+   echo -n "Enter your kvm host ip address: "; read KVM_HOST
+   echo -n "Enter your kvm host username: "; read KVM_USER
+   echo -n "Are all these informations correct? [Y/n]: "; read ANS2
+   ANS2=$(echo $ANS2 | awk '{print toupper($0)}')
+   if [[ $ANS2 == "Y" ]]; then
+      break
+   fi
+   clear 
+   true
+done
 
 # At MAAS server do:
 # show full list of maas packages 
+echo "MAAS packages are installing right now, this may take some time ..."
 apt-cache search maas
 
 # Add a stable package repositories
@@ -60,8 +66,7 @@ sudo apt install maas -y
 # Alternative way to create MAAS user with script
 printf "*** Creating an ADMIN user ... ***\n"
 printf "This may take some time, dont interrupt. Thanks !!!\n"
-printf $PROFILE 
-printf $EMAIL_ADDRESS
+printf "Username is "$PROFILE", email address is "$EMAIL_ADDRESS"\n"
 printf "\n"  
 sudo maas createadmin --username=$PROFILE --emaail=$EMAIL_ADDRESS
 #ex. username = "vmaas201", password = "Super123"
@@ -87,10 +92,14 @@ read -p "Press any key to continue ..."
 cd
 clear
 ssh-keygen
+printf "\n"
+printf "\n"
+printf "**** Important Notice ****** \n"
 printf "Copy and paste the generated public SSK key below to the MAAS webUI ...\n"
 printf "\n"
 cat ~/.ssh/id_rsa.pub
-
+printf "\n"
+printf "\n"
 # At MAAS web ui do: 
 printf "1. After pasting the SSH public key for admin entry\n" 
 printf "2. Go to the 'Subnets' tab, add Fabric to the MAAS in networks, and add subnet to the Fabric\n"  
@@ -99,7 +108,6 @@ printf "Name = <name-of-subnet>\n"
 printf "CIDR = <ex. 192.168.101.0/24>\n"
 printf "Fabric & VLAN = <choose the fabric to be linked with the subnet>\n"
 printf "Reserve range = <enter the start IP address and the end IP address>\n"
-
 # Turn on DHCP
 printf "4. To turn on DHCP, select default VLAN assigned to the Fabric under column VLAN\n"
 printf "Set the Rack controller that will manage DHCP (in this case the 'MAAS'\n"
@@ -108,7 +116,9 @@ read -p "Press any key to continue if above steps already completed..."
 
 # Enlisting and commissioning server
 clear
-printf "Now perform the ff to enlist and commission the server. Do these at the target node BIOS\n:
+printf "\n"
+printf "\n"
+printf "Now perform the ff to enlist and commission the server. Do these at the target node BIOS\n:"
 printf "1. Set all servers to PXE boot (make sure the right NIC interface as the boot device)\n"
 printf "2. Set IPMI to DHCP mode\n"
 printf "3. Boot each machine. Machines will be automatically enlisted in the Nodes tab\n"
