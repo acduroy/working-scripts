@@ -1,5 +1,6 @@
 #!/bin/bash
-# Prerequisite: 
+
+# Prerequisite:
 # 1) Ubuntu Server OS installed on MAAS server in this case 16.04 LTS release
 # 2) MAAS server should be NAT enabled before MAAS installation
 # Below steps will install maas from packages
@@ -14,11 +15,11 @@ echo "Check if ip tables rule.v4 exist"
 sudo updatedb
 IPT=$(locate -c -n 10 -i "rules.v4" /etc/iptables)
 if [[ $IPT -eq 0 ]]
-then 
+then
    /bin/bash nat-script-nocheck.sh
 else
    echo "iptable rules.v4 exist, no need to download !!!"
-   printf "This server was check to have a NAT service enabled !!!\n" 
+   printf "This server was check to have a NAT service enabled !!!\n"
 fi
 
 echo "Now setting up MAAS  to deploy OS base installation ..."
@@ -45,39 +46,41 @@ do
    if [[ $ANS2 == "Y" ]]; then
       break
    fi
-   clear 
+   clear
    true
 done
 
 # At MAAS server do:
-# show full list of maas packages 
+# show full list of maas packages
 echo "MAAS packages are installing right now, this may take some time ..."
 apt-cache search maas
 
 # Add a stable package repositories
 sudo apt-add-repository -yu ppa:maas/stable
 
-# Initial setup of MAAS environment 
-sudo apt update 
+# Initial setup of MAAS environment
+sudo apt update
 sudo apt install maas -y
 
 # Create admin user
-# sudo maas createadmin  
+printf "Now creating a MAAS admin user ...\n"
+sudo maas createadmin
 # Alternative way to create MAAS user with script
-printf "*** Creating an ADMIN user ... ***\n"
-printf "This may take some time, dont interrupt. Thanks !!!\n"
-printf "Username is "$PROFILE", email address is "$EMAIL_ADDRESS"\n"
-printf "\n"  
-sudo maas createadmin --username=$PROFILE --emaail=$EMAIL_ADDRESS
+#printf "*** Creating an ADMIN user ... ***\n"
+#printf "This may take some time, dont interrupt. Thanks !!!\n"
+#printf "Username is "$PROFILE", email address is "$EMAIL_ADDRESS"\n"
+printf "\n"
+#sudo maas createadmin --username=$PROFILE --emaail=$EMAIL_ADDRESS
 #ex. username = "vmaas201", password = "Super123"
-
-printf "Now SSH keys need to be imported - do the steps at web ui\n"
+printf "*** Completed creating maas admin user ***\n"
+printf "\n"
+printf "SSH keys need to be imported - do these steps at MAAS webUI:\n"
 printf "1. Login to MAAS web UI to complete the user configuration\n"
 printf "2. At any web browser, enter http://<your_maas_ip>:5240/MAAS\n"
-printf "3. Fill in the details for the initial MAAS configuration\n"  
-printf "4. For DNS forwarder value, use nslookup command to get the DNS ip\n" 
-printf "Region name = <MAAS name>\n"   
-printf "DNS forwarder = <Upstream DNS ip address from nslookup yahoo.com>\n"   
+printf "3. Fill in the details for the initial MAAS configuration\n"
+printf "4. For DNS forwarder value, use nslookup command to get the DNS ip\n"
+printf "Region name = <MAAS name>\n"
+printf "DNS forwarder = <Upstream DNS ip address from nslookup yahoo.com>\n"
 printf "Choosing source = mass.io and Ubuntu images = 16.04 LTS release\n"
 printf "SSH keys for admin = <add multiple keys from launchpad and Github or enter manually>\n"
 printf "\n"
@@ -100,9 +103,9 @@ printf "\n"
 cat ~/.ssh/id_rsa.pub
 printf "\n"
 printf "\n"
-# At MAAS web ui do: 
-printf "1. After pasting the SSH public key for admin entry\n" 
-printf "2. Go to the 'Subnets' tab, add Fabric to the MAAS in networks, and add subnet to the Fabric\n"  
+# At MAAS web ui do:
+printf "1. After pasting the SSH public key for admin entry\n"
+printf "2. Go to the 'Subnets' tab, add Fabric to the MAAS in networks, and add subnet to the Fabric\n"
 printf "3. At 'Add subnet' sub-page, fill in the details for the dynamic range \n"
 printf "Name = <name-of-subnet>\n"
 printf "CIDR = <ex. 192.168.101.0/24>\n"
@@ -130,29 +133,25 @@ read -p "Press any key once enlisting and commissioning of server is completed, 
 # ref: https://docs.maas.io/2.3/en/nodes-add \n
 # The procedure below is to add nodes via a Pod \n "
 clear
-prinf "**** Adding virtual node(s) ******\n"
-printf "Use the ff steps to add VM(s) via Pod using the command line.\n"
-echo -n "Press 'Y' to continue, 'n' to exit the program: "; read ADD_VM
+printf "Use the ff steps below to add virtual node via Pod. Do the ff at the command line.\n"
+echo -n "Press 'Y' to continue, 'n' to exit the program: ";read ADD_VM
 ADD_VM=$(echo $ADD_VM | awk '{print toupper($0)}')
 if [[ $ADD_VM == "N" ]]; then
-   printf "To add VM node later on, run 'maas-add-vm.sh' script\n"
+   printf "If you need to add VM node later on, run 'maas-add-vm.sh' script\n"
    exit 1
 fi
 sudo apt install libvirt-bin -y
 printf "Generating SSH private/pub key 'maas' user.. (in case no private/pub key generated)\n"
-printf "Remember this is key pair for 'maas' user!!!!\n"
-printf "\n"
+echo -n "Remember this is key pair for 'maas' user!!!!"
 sudo chsh -s /bin/bash maas
-printf "Entering MAAS superuser ...\n"
 sudo su - maas
 ssh-keygen -f ~/.ssh/id_rsa -N ''
-printf "\n"
-printf "\n"
+
 printf "Now copying the public key to the target node (from MAAS to KVM host in this case)\n"
 printf "Remember this is still under 'mass' user shell/console!!! \n"
 printf "Where $KVM_HOST represents the IP address of the KVM host \n"
 printf "$USER represents a user on the KVM host with the permission to communicate with the libvirt daemon \n"
-printf "Use the IP address of the KVM Host bridge (ex. br201 - 10.100.201.2)\n" 
+printf "Use the IP address of the KVM Host bridge (ex. br201 - 10.100.201.2)\n"
 
 # For this example, user_name = User Name of KVM Host (ex. 'acd')
 # and IP address of the kvm host bridge (ex. br201 - 10.100.201.2)
@@ -168,7 +167,7 @@ ssh-copy-id -i ~/.ssh/id_rsa $KVM_USER@$KVM_HOST
 printf "Testing the connection between MAAS and KVM-Host ...\n"
 virsh -c qemu+ssh://$KVM_USER@$KVM_HOST/system list --all
 printf "Once connection has been checked, you can now exit MAAS shell\n"
-echo -n "Press 'Y' to exit or 'n' to stay in MAAS shell: "; read EXIT_SHELL
+echo -n "Press 'Y' to exit or 'n' to stay in MAAS shell"; read EXIT_SHELL
 EXIT_SHELL=$(echo $EXIT_SHELL | awk '{print toupper($0)}')
 if [[ $EXIT_SHELL == "N" ]]; then
    printf "Exiting the program to check the communication problem between kvm and maas server\n"
@@ -177,17 +176,18 @@ if [[ $EXIT_SHELL == "N" ]]; then
    exit 1
 fi
 # Exit from 'maas' user shell
-exit  
+exit
 
 # Read - Add nodes via a Pod section (adding KVM VMs)...\n
 # https://docs.maas.io/2.3/en/nodes-comp-hw
 # NOTE: user_name = User Name of KVM Host (ex. 'acd')
-# NOTE: ip_address = IP address of the host bridge (ex. br201 - 10.100.201.2) " 
+# NOTE: ip_address = IP address of the host bridge (ex. br201 - 10.100.201.2) "
 printf "Now to complete adding VM node to the maas network, perform the ff at MAAS webUI:\n"
 printf "1. Go to Pods menu and add pod\n"
-printf "2. Select Pod type to Virsh virtual system\n" 
-printf "3. Enter the Virsh address = 'qemu+ssh://<user_name>@<ip_address>/system'\n" 
+printf "2. Select Pod type to Virsh virtual system\n"
+printf "3. Enter the Virsh address = 'qemu+ssh://<user_name>@<ip_address>/system'\n"
 printf "4. Save pod'\n"
 read -p "Once all steps above have completed, press any key ..."
 echo
 echo " **** MAAS Deployer installation is done .... THANKS !!! ****"
+
