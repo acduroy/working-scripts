@@ -130,8 +130,9 @@ read -p "Press any key once enlisting and commissioning of server is completed, 
 # ref: https://docs.maas.io/2.3/en/nodes-add \n
 # The procedure below is to add nodes via a Pod \n "
 clear
-printf "Use the ff steps below to add virtual node via Pod. Do the ff at the command line.\n"
-echo -n "Press 'Y' to continue, 'n' to exit the program:"; read ADD_VM
+prinf "**** Adding virtual node(s) ******\n"
+printf "Use the ff steps to add VM(s) via Pod using the command line.\n"
+echo -n "Press 'Y' to continue, 'n' to exit the program: "; read ADD_VM
 ADD_VM=$(echo $ADD_VM | awk '{print toupper($0)}')
 if [[ $ADD_VM == "N" ]]; then
    printf "To add VM node later on, run 'maas-add-vm.sh' script\n"
@@ -139,11 +140,14 @@ if [[ $ADD_VM == "N" ]]; then
 fi
 sudo apt install libvirt-bin -y
 printf "Generating SSH private/pub key 'maas' user.. (in case no private/pub key generated)\n"
-echo -n "Remember this is key pair for 'maas' user!!!!"
+printf "Remember this is key pair for 'maas' user!!!!\n"
+printf "\n"
 sudo chsh -s /bin/bash maas
+printf "Entering MAAS superuser ...\n"
 sudo su - maas
 ssh-keygen -f ~/.ssh/id_rsa -N ''
-
+printf "\n"
+printf "\n"
 printf "Now copying the public key to the target node (from MAAS to KVM host in this case)\n"
 printf "Remember this is still under 'mass' user shell/console!!! \n"
 printf "Where $KVM_HOST represents the IP address of the KVM host \n"
@@ -164,7 +168,7 @@ ssh-copy-id -i ~/.ssh/id_rsa $KVM_USER@$KVM_HOST
 printf "Testing the connection between MAAS and KVM-Host ...\n"
 virsh -c qemu+ssh://$KVM_USER@$KVM_HOST/system list --all
 printf "Once connection has been checked, you can now exit MAAS shell\n"
-echo -n "Press 'Y' to exit or 'n' to stay in MAAS shell"; read EXIT_SHELL
+echo -n "Press 'Y' to exit or 'n' to stay in MAAS shell: "; read EXIT_SHELL
 EXIT_SHELL=$(echo $EXIT_SHELL | awk '{print toupper($0)}')
 if [[ $EXIT_SHELL == "N" ]]; then
    printf "Exiting the program to check the communication problem between kvm and maas server\n"
