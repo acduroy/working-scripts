@@ -64,49 +64,48 @@ printf "\n"
 sudo maas createadmin --username=$PROFILE --emaail=$EMAIL_ADDRESS
 #ex. username = "vmaas201", password = "Super123"
 
-printf "Now SSH keys need to be imported - this can be done at web ui\n"
-printf "Now login to MAAS web UI to complete the user configuration\n"
-printf "At any web browser do:\n"
-printf "http://<your_maas_ip>:5240/MAAS\n"
-echo
-printf "At MAAS web UI to do:\n"
-printf "Fill in the details for the initial MAAS configuration\n"  
-printf "For DNS forwarder value, use nslookup command to get the DNS ip\n" 
-echo
+printf "Now SSH keys need to be imported - do the steps at web ui\n"
+printf "1. Login to MAAS web UI to complete the user configuration\n"
+printf "2. At any web browser, enter http://<your_maas_ip>:5240/MAAS\n"
+printf "3. Fill in the details for the initial MAAS configuration\n"  
+printf "4. For DNS forwarder value, use nslookup command to get the DNS ip\n" 
 printf "Region name = <MAAS name>\n"   
 printf "DNS forwarder = <Upstream DNS ip address from nslookup yahoo.com>\n"   
 printf "Choosing source = mass.io and Ubuntu images = 16.04 LTS release\n"
 printf "SSH keys for admin = <add multiple keys from launchpad and Github or enter manually>\n"
-echo
-printf "Make sure the aboev steps above were done at webUI !!!\n"
-read -p "Press any key to continue if above steps have been done, thanks ..."
+printf "\n"
+read -p "Press any key to continue if above steps have been done at MAAS webUI, thanks ..."
 clear
-echo
-printf "Setting up public key authentication for SSH ...\n"
+printf "\n"
+printf "Now need to set up the public key authentication for SSH, this can be done at the command line ...\n"
+read -p "Press any key to continue ..."
 # ref: https://www.ssh.com/ssh/keygen/
 # At MAAS server do the ff:
 # execute the command at home directory
 cd
+clear
 ssh-keygen
-printf "Now copying the public key authentication ..."  
+printf "Copy and paste the generated public SSK key below to the MAAS webUI ...\n"
+printf "\n"
 cat ~/.ssh/id_rsa.pub
 
 # At MAAS web ui do: 
-printf "At the MAAS webUI, paste the public key generated from MAAS server to the SSH keys for admin entry\n" 
-printf "Then go to the 'Subnets' tab, add Fabric to the MAAS in networks, and add subnet to the Fabric\n"  
-printf "At 'Add subnet' sub-page do:\n" 
-printf "Fill in the details for the dynamic range \n"
+printf "1. After pasting the SSH public key for admin entry\n" 
+printf "2. Go to the 'Subnets' tab, add Fabric to the MAAS in networks, and add subnet to the Fabric\n"  
+printf "3. At 'Add subnet' sub-page, fill in the details for the dynamic range \n"
 printf "Name = <name-of-subnet>\n"
 printf "CIDR = <ex. 192.168.101.0/24>\n"
 printf "Fabric & VLAN = <choose the fabric to be linked with the subnet>\n"
 printf "Reserve range = <enter the start IP address and the end IP address>\n"
 
 # Turn on DHCP
-printf "Select default VLAN assigned to the Fabric under column VLAN\n"
+printf "4. To turn on DHCP, select default VLAN assigned to the Fabric under column VLAN\n"
 printf "Set the Rack controller that will manage DHCP (in this case the 'MAAS'\n"
 printf "From the 'Take action' button, select 'Provide DHCP' \n"
+read -p "Press any key to continue if above steps already completed..."
 
 # Enlisting and commissioning server
+clear
 printf "Now perform the ff to enlist and commission the server. Do these at the target node BIOS\n:
 printf "1. Set all servers to PXE boot (make sure the right NIC interface as the boot device)\n"
 printf "2. Set IPMI to DHCP mode\n"
@@ -117,12 +116,13 @@ read -p "Press any key once enlisting and commissioning of server is completed, 
 
 # Adding virtual node to the MAAS network with KVM
 # ref: https://docs.maas.io/2.3/en/nodes-add \n
-# The procedure below is to add nodes via a Pod \n " 
+# The procedure below is to add nodes via a Pod \n "
+clear
 printf "Use the ff steps below to add virtual node via Pod. Do the ff at the command line.\n"
 echo -n "Press 'Y' to continue, 'n' to exit the program:"; read ADD_VM
 ADD_VM=$(echo $ADD_VM | awk '{print toupper($0)}')
 if [[ ADD_VM == "N" ]]; then
-   printf "To add VM node later on, run 'maas-add-vm.sh' script\n" 
+   printf "To add VM node later on, run 'maas-add-vm.sh' script\n"
    exit 1
 fi
 sudo apt install libvirt-bin -y
