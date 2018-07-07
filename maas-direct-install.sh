@@ -13,7 +13,7 @@ printf "The server should have NAT enabled to continue the installation\n"
 echo "Check if ip tables rule.v4 exist"
 sudo updatedb
 IPT=$(locate -c -n 10 -i "rules.v4" /etc/iptables)
-if [[ IPT -eq 0 ]]
+if [[ $IPT -eq 0 ]]
 then 
    /bin/bash nat-script-nocheck.sh
 else
@@ -26,7 +26,7 @@ printf "Need your username, email address account and kvm ip address to proceed,
 echo -n "Do you have these informations with you? [Y/n]: "; read ANS1
 ANS1=$(echo $ANS1 | awk '{print toupper($0)}')
 
-if [[ ANS1 == "N" ]]; then
+if [[ $ANS1 == "N" ]]; then
    exit 1
 fi
 read -p "Press any key to proceed the installation ..."
@@ -39,7 +39,7 @@ echo -n "Enter your kvm host username: "; read KVM_USER
 echo -n "Are all these informations correct? [Y/n]: "; read ANS2
 ANS2=$(echo $ANS2 | awk '{print toupper($0)}')
 
-if [[ ANS2 == "N" ]]; then
+if [[ $ANS2 == "N" ]]; then
    exit
 fi
 clear 
@@ -123,7 +123,7 @@ clear
 printf "Use the ff steps below to add virtual node via Pod. Do the ff at the command line.\n"
 echo -n "Press 'Y' to continue, 'n' to exit the program:"; read ADD_VM
 ADD_VM=$(echo $ADD_VM | awk '{print toupper($0)}')
-if [[ ADD_VM == "N" ]]; then
+if [[ $ADD_VM == "N" ]]; then
    printf "To add VM node later on, run 'maas-add-vm.sh' script\n"
    exit 1
 fi
@@ -156,7 +156,7 @@ virsh -c qemu+ssh://$KVM_USER@$KVM_HOST/system list --all
 printf "Once connection has been checked, you can now exit MAAS shell\n"
 echo -n "Press 'Y' to exit or 'n' to stay in MAAS shell"; read EXIT_SHELL
 EXIT_SHELL=$(echo $EXIT_SHELL | awk '{print toupper($0)}')
-if [[ EXIT_SHELL == "N" ]]; then
+if [[ $EXIT_SHELL == "N" ]]; then
    printf "Exiting the program to check the communication problem between kvm and maas server\n"
    printf "If needed to go back to maas shell, use the ff commands:\n"
    printf "1.)sudo chsh -s /bin/bash maas and 2.)sudo su - maas \n"
