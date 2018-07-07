@@ -16,6 +16,8 @@ sudo updatedb
 IPT=$(locate -c -n 10 -i "rules.v4" /etc/iptables)
 if [[ $IPT -eq 0 ]]
 then
+   printf "Downloading nat-script-nocheck.sh file\n"
+   wget https://git.hubcontent
    /bin/bash nat-script-nocheck.sh
 else
    echo "iptable rules.v4 exist, no need to download !!!"
