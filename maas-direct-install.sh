@@ -149,43 +149,57 @@ printf "Generating SSH private/pub key 'maas' user.. (in case no private/pub key
 printf "Remember this is key pair for 'maas' user!!!!\n"
 sudo chsh -s /bin/bash maas
 sudo su - maas
-ssh-keygen -f ~/.ssh/id_rsa -N ''
 
-printf "Now copying the public key to the target node (from MAAS to KVM host in this case)\n"
-printf "Remember this is still under 'mass' user shell/console!!! \n"
-printf "Where $KVM_HOST represents the IP address of the KVM host \n"
-printf "$USER represents a user on the KVM host with the permission to communicate with the libvirt daemon \n"
-printf "Use the IP address of the KVM Host bridge (ex. br201 - 10.100.201.2)\n"
+#download the 'maas-add-vm.sh' script at acduroy/github
+wget https://raw.githubusercontent.com/acduroy/working-scripts/master/maas-add-vm.sh
+
+#make the script executable
+chmod 755 maas-add-vm.sh
+
+#run the script
+/bin/bash maas-add-vm.sh
+
+#ssh-keygen -f ~/.ssh/id_rsa -N ''
+
+##printf "Now copying the public key to the target node (from MAAS to KVM host in this case)\n"
+#printf "Remember this is still under 'mass' user shell/console!!! \n"
+#printf "Where $KVM_HOST represents the IP address of the KVM host \n"
+#printf "$USER represents a user on the KVM host with the permission to communicate with the libvirt daemon \n"
+#printf "Use the IP address of the KVM Host bridge (ex. br201 - 10.100.201.2)\n"
 
 # For this example, user_name = User Name of KVM Host (ex. 'acd')
 # and IP address of the kvm host bridge (ex. br201 - 10.100.201.2)
 # Example ssh-copy-id -i ~/..sh/id_rsa acd@10.100.201.2
 
-printf "Example ssh-copy-id -i ~/.ssh/id_rsa acd@10.100.201.2\n"
-read -p "Press any key, once ready to enter data ..."
+#printf "Example ssh-copy-id -i ~/.ssh/id_rsa acd@10.100.201.2\n"
+#read -p "Press any key, once ready to enter data ..."
 
-echo -n "Enter your kvm host user name: "; read KVM_USER
-echo -n "Enter your kvm ip address: "; read KVM_HOST
-ssh-copy-id -i ~/.ssh/id_rsa $KVM_USER@$KVM_HOST
+#echo -n "Enter your kvm host user name: "; read KVM_USER
+#echo -n "Enter your kvm ip address: "; read KVM_HOST
+#ssh-copy-id -i ~/.ssh/id_rsa $KVM_USER@$KVM_HOST
 
-printf "Testing the connection between MAAS and KVM-Host ...\n"
-virsh -c qemu+ssh://$KVM_USER@$KVM_HOST/system list --all
-printf "Once connection has been checked, you can now exit MAAS shell\n"
-echo -n "Press 'Y' to exit or 'n' to stay in MAAS shell"; read EXIT_SHELL
-EXIT_SHELL=$(echo $EXIT_SHELL | awk '{print toupper($0)}')
-if [[ $EXIT_SHELL == "N" ]]; then
-   printf "Exiting the program to check the communication problem between kvm and maas server\n"
-   printf "If needed to go back to maas shell, use the ff commands:\n"
-   printf "1.)sudo chsh -s /bin/bash maas and 2.)sudo su - maas \n"
-   exit 1
-fi
+#printf "Testing the connection between MAAS and KVM-Host ...\n"
+#virsh -c qemu+ssh://$KVM_USER@$KVM_HOST/system list --all
+#printf "Once connection has been checked, you can now exit MAAS shell\n"
+#echo -n "Press 'Y' to exit or 'n' to stay in MAAS shell"; read EXIT_SHELL
+#EXIT_SHELL=$(echo $EXIT_SHELL | awk '{print toupper($0)}')
+#if [[ $EXIT_SHELL == "N" ]]; then
+#   printf "Exiting the program to check the communication problem between kvm and maas server\n"
+#   printf "If needed to go back to maas shell, use the ff commands:\n"
+#   printf "1.)sudo chsh -s /bin/bash maas and 2.)sudo su - maas \n"
+#   exit 1
+#fi
 # Exit from 'maas' user shell
-exit
+#exit
 
 # Read - Add nodes via a Pod section (adding KVM VMs)...\n
 # https://docs.maas.io/2.3/en/nodes-comp-hw
 # NOTE: user_name = User Name of KVM Host (ex. 'acd')
 # NOTE: ip_address = IP address of the host bridge (ex. br201 - 10.100.201.2) "
+clear
+printf "Completed adding VM node(s) to the MAAS at command line...\n"
+printf "\n"
+printf "\n"
 printf "Now to complete adding VM node to the maas network, perform the ff at MAAS webUI:\n"
 printf "1. Go to Pods menu and add pod\n"
 printf "2. Select Pod type to Virsh virtual system\n"
