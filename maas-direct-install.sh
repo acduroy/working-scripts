@@ -57,106 +57,121 @@ sudo apt install maas -y
 # sudo maas createadmin  
 # Alternative way to create MAAS user with script
 printf "*** Creating an ADMIN user ... ***\n"
+printf "This may take some time, dont interrupt. Thanks !!!\n"
+printf $PROFILE 
+printf $EMAIL_ADDRESS
+printf "\n"  
 sudo maas createadmin --username=$PROFILE --emaail=$EMAIL_ADDRESS
 #ex. username = "vmaas201", password = "Super123"
 
-echo -n "Now SSH keys need to be imported - this can be done at web ui"
-echo -n "Now login to MAAS web UI to complete the user configuration"
-echo -n "At any web browser do:"
+printf "Now SSH keys need to be imported - this can be done at web ui\n"
+printf "Now login to MAAS web UI to complete the user configuration\n"
+printf "At any web browser do:\n"
 printf "http://<your_maas_ip>:5240/MAAS\n"
-
-echo -n "At MAAS web UI to do:"
-echo -n "Fill in the details for the initial MAAS configuration"  
+echo
+printf "At MAAS web UI to do:\n"
+printf "Fill in the details for the initial MAAS configuration\n"  
 printf "For DNS forwarder value, use nslookup command to get the DNS ip\n" 
-
-echo -n "Region name = <MAAS name>"   
-echo -n "DNS forwarder = <Upstream DNS ip address from nslookup yahoo.com>"   
-echo -n "Choosing source = mass.io and Ubuntu images = 16.04 LTS release"
-echo -n "SSH keys for admin = <add multiple keys from launchpad and Github or enter manually>"
-
-echo -n "Make sure the aboev steps above were done at webUI !!!"
+echo
+printf "Region name = <MAAS name>\n"   
+printf "DNS forwarder = <Upstream DNS ip address from nslookup yahoo.com>\n"   
+printf "Choosing source = mass.io and Ubuntu images = 16.04 LTS release\n"
+printf "SSH keys for admin = <add multiple keys from launchpad and Github or enter manually>\n"
+echo
+printf "Make sure the aboev steps above were done at webUI !!!\n"
 read -p "Press any key to continue if above steps have been done, thanks ..."
 clear
-
-echo -n "To setup public key authentication for SSH manually:"
+echo
+printf "Setting up public key authentication for SSH ...\n"
 # ref: https://www.ssh.com/ssh/keygen/
-echo -n "At MAAS server do the ff:"
+# At MAAS server do the ff:
 # execute the command at home directory
 cd
 ssh-keygen
-
-echo -n "copying the public key authentication"  
+printf "Now copying the public key authentication ..."  
 cat ~/.ssh/id_rsa.pub
 
 # At MAAS web ui do: 
-echo -n "At the MAAS webUI, paste the public key generated from MAAS server to the SSH keys for admin entry" 
-echo -n "Go to the "Subnets" tab" 
-echo -n "Add Fabric to the MAAS in networks"
-echo -n "Add subnet to the Fabric"  
+printf "At the MAAS webUI, paste the public key generated from MAAS server to the SSH keys for admin entry\n" 
+printf "Then go to the 'Subnets' tab, add Fabric to the MAAS in networks, and add subnet to the Fabric\n"  
+printf "At 'Add subnet' sub-page do:\n" 
+printf "Fill in the details for the dynamic range \n"
+printf "Name = <name-of-subnet>\n"
+printf "CIDR = <ex. 192.168.101.0/24>\n"
+printf "Fabric & VLAN = <choose the fabric to be linked with the subnet>\n"
+printf "Reserve range = <enter the start IP address and the end IP address>\n"
 
-echo -n "At 'Add subnet' sub-page do:" 
-# Fill in the details for the dynamic range \n
-echo -n "Name = <name-of-subnet>"
-echo -n "CIDR = <ex. 192.168.101.0/24>"
-echo -n "Fabric & VLAN = <choose the fabric to be linked with the subnet>"
-echo -n "Reserve range = <enter the start IP address and the end IP address>"
-
-# Turn on DHCP \n
-echo -n "Select default VLAN assigned to the Fabric under column VLAN"
-echo -n "Set the Rack controller that will manage DHCP (in this case the 'MAAS'"
+# Turn on DHCP
+printf "Select default VLAN assigned to the Fabric under column VLAN\n"
+printf "Set the Rack controller that will manage DHCP (in this case the 'MAAS'\n"
 printf "From the 'Take action' button, select 'Provide DHCP' \n"
 
-# Enlist and commission servers \n
-# At target node BIOS: \n
-echo -n "Set all servers to PXE boot (make sure the right NIC interface as the boot device)"
-echo -n "Set IPMI to DHCP mode"
-echo -n "Boot each machine. Machines will be automatically enlisted in the Nodes tab"
-echo -n "Select all machines and "Commission" them using the "Take action" button"
-printf "Once machines are in "Ready" status, you can start deploying\n"
+# Enlisting and commissioning server
+printf "Now perform the ff to enlist and commission the server. Do these at the target node BIOS\n:
+printf "1. Set all servers to PXE boot (make sure the right NIC interface as the boot device)\n"
+printf "2. Set IPMI to DHCP mode\n"
+printf "3. Boot each machine. Machines will be automatically enlisted in the Nodes tab\n"
+printf "4. Select all machines and "Commission" them using the "Take action" button\n"
+printf "5. Once machines are at 'Ready' status, you can start deploying\n"
+read -p "Press any key once enlisting and commissioning of server is completed, thanks ..."
 
-# To add virtual node to these steps below: \n
-# MAAS with KVM  \n
+# Adding virtual node to the MAAS network with KVM
 # ref: https://docs.maas.io/2.3/en/nodes-add \n
 # The procedure below is to add nodes via a Pod \n " 
-
-echo -n "At MAAS node do:"
+printf "Use the ff steps below to add virtual node via Pod. Do the ff at the command line.\n"
+echo -n "Press 'Y' to continue, 'n' to exit the program:"; read ADD_VM
+ADD_VM=$(echo $ADD_VM | awk '{print toupper($0)}')
+if [[ ADD_VM == "N" ]]; then
+   printf "To add VM node later on, run 'maas-add-vm.sh' script\n" 
+   exit 1
+fi
 sudo apt install libvirt-bin -y
-
-echo -n "Generating SSH private/pub key 'maas' user.. (in case no private/pub key generated)"
+printf "Generating SSH private/pub key 'maas' user.. (in case no private/pub key generated)\n"
 echo -n "Remember this is key pair for 'maas' user!!!!"
 sudo chsh -s /bin/bash maas
 sudo su - maas
 ssh-keygen -f ~/.ssh/id_rsa -N ''
 
-echo -n "Copy public key to the target node (from MAAS to KVM host in this case) \n
-# Remember this is still under 'mass' user shell/console!!! \n
-# Where $KVM_HOST represents the IP address of the KVM host \n
-# $USER represents a user on the KVM host with the permission to communicate with the libvirt daemon \n
+printf "Now copying the public key to the target node (from MAAS to KVM host in this case)\n"
+printf "Remember this is still under 'mass' user shell/console!!! \n"
+printf "Where $KVM_HOST represents the IP address of the KVM host \n"
+printf "$USER represents a user on the KVM host with the permission to communicate with the libvirt daemon \n"
+printf "Use the IP address of the KVM Host bridge (ex. br201 - 10.100.201.2)\n" 
 
-# NOTE: user_name = User Name of KVM Host (ex. 'acd')\n
-# NOTE: ip_address = IP address of the host bridge (ex. br201 - 10.100.201.2)\n"
+# For this example, user_name = User Name of KVM Host (ex. 'acd')
+# and IP address of the kvm host bridge (ex. br201 - 10.100.201.2)
+# Example ssh-copy-id -i ~/..sh/id_rsa acd@10.100.201.2
 
-echo -n "Example ssh-copy-id -i ~/.ssh/id_rsa acd@10.100.201.2"
+printf "Example ssh-copy-id -i ~/.ssh/id_rsa acd@10.100.201.2\n"
+read -p "Press any key, once ready to enter data ..."
 
 echo -n "Enter your kvm host user name: "; read KVM_USER
 echo -n "Enter your kvm ip address: "; read KVM_HOST
 ssh-copy-id -i ~/.ssh/id_rsa $KVM_USER@$KVM_HOST
 
-echo -n "Testing connection between MAAS and KVM-Host:"
+printf "Testing the connection between MAAS and KVM-Host ...\n"
 virsh -c qemu+ssh://$KVM_USER@$KVM_HOST/system list --all
-
+printf "Once connection has been checked, you can now exit MAAS shell\n"
+echo -n "Press 'Y' to exit or 'n' to stay in MAAS shell"; read EXIT_SHELL
+EXIT_SHELL=$(echo $EXIT_SHELL | awk '{print toupper($0)}')
+if [[ EXIT_SHELL == "N" ]]; then
+   printf "Exiting the program to check the communication problem between kvm and maas server\n"
+   printf "If needed to go back to maas shell, use the ff commands:\n"
+   printf "1.)sudo chsh -s /bin/bash maas and 2.)sudo su - maas \n"
+   exit 1
+fi
 # Exit from 'maas' user shell
-exit
+exit  
 
-echo "# Go and read - Add nodes via a Pod section (adding KVM VMs)...
+# Read - Add nodes via a Pod section (adding KVM VMs)...\n
 # https://docs.maas.io/2.3/en/nodes-comp-hw
 # NOTE: user_name = User Name of KVM Host (ex. 'acd')
 # NOTE: ip_address = IP address of the host bridge (ex. br201 - 10.100.201.2) " 
-
-echo -n "At MAAS web UI do:"
-echo -n "Go to Pods menu and add pod"
-echo -n "Select Pod type to Virsh virtual system" 
-echo -n "Enter the Virsh address = 'qemu+ssh://<user_name>@<ip_address>/system' " 
-echo -n "Save pod"
-
-echo -n "MAAS Deployer installation is done .... THANKS !!!"
+printf "Now to complete adding VM node to the maas network, perform the ff at MAAS webUI:\n"
+printf "1. Go to Pods menu and add pod\n"
+printf "2. Select Pod type to Virsh virtual system\n" 
+printf "3. Enter the Virsh address = 'qemu+ssh://<user_name>@<ip_address>/system'\n" 
+printf "4. Save pod'\n"
+read -p "Once all steps above have completed, press any key ..."
+echo
+echo " **** MAAS Deployer installation is done .... THANKS !!! ****"
