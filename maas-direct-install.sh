@@ -30,6 +30,8 @@ if [[ ANS1 == "N" ]]; then
    exit 1
 fi
 read -p "Press any key to proceed the installation ..."
+ifconfig
+nslookup yahoo.com
 echo -n "Enter your username here: "; read PROFILE
 echo -n "Enter your email address here: "; read EMAIL_ADDRESS
 echo -n "Enter your kvm host ip address: "; read KVM_HOST
