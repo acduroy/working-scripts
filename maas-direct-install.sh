@@ -146,7 +146,7 @@ if [[ $ADD_VM == "N" ]]; then
 fi
 sudo apt install libvirt-bin -y
 printf "Generating SSH private/pub key 'maas' user.. (in case no private/pub key generated)\n"
-echo -n "Remember this is key pair for 'maas' user!!!!"
+printf "Remember this is key pair for 'maas' user!!!!\n"
 sudo chsh -s /bin/bash maas
 sudo su - maas
 ssh-keygen -f ~/.ssh/id_rsa -N ''
