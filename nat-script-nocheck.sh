@@ -1,6 +1,6 @@
 #!/bin/bash
 
-install packages
+#install packages
 sudo apt-get install -y iptables-persistent
 
 # Display network interfaces status
