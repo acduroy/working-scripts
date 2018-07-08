@@ -137,6 +137,10 @@ read -p "Press any key once enlisting and commissioning of server is completed, 
 # ref: https://docs.maas.io/2.3/en/nodes-add \n
 # The procedure below is to add nodes via a Pod \n "
 clear
+printf "Installing packages needed to add VM node(s) into the MAAS ...\n"
+sudo apt install libvirt-bin -y
+
+clear
 printf "Use the ff steps below to add virtual node via Pod. Do the ff at the command line.\n"
 echo -n "Press 'Y' to continue, 'n' to exit the program: ";read ADD_VM
 ADD_VM=$(echo $ADD_VM | awk '{print toupper($0)}')
@@ -144,21 +148,21 @@ if [[ $ADD_VM == "N" ]]; then
    printf "If you need to add VM node later on, run 'maas-add-vm.sh' script\n"
    exit 1
 fi
-sudo apt install libvirt-bin -y
+#Generate SSH public key
 printf "Generating SSH private/pub key 'maas' user.. (in case no private/pub key generated)\n"
 printf "Remember this is key pair for 'maas' user!!!!\n"
-sudo chsh -s /bin/bash maas
-sudo su - maas
-
+printf "Need to run the ff. commands at maas shell\n"
+printf "1)'sudo chsh -s /bin/bash maas'\n"
+printf "2)'sudo su - maas'\n"
 #download the 'maas-add-vm.sh' script at acduroy/github
-wget https://raw.githubusercontent.com/acduroy/working-scripts/master/maas-add-vm.sh
-
+printf "3)'wget https://raw.githubusercontent.com/acduroy/working-scripts/master/maas-add-vm.sh'\n"
 #make the script executable
-chmod 755 maas-add-vm.sh
-
+printf "4)'chmod 755 maas-add-vm.sh'\n"
 #run the script
-/bin/bash maas-add-vm.sh
-
+printf "5)'/bin/bash maas-add-vm.sh'\n"
+printf "\n"
+printf "Once KVM and MAAS established connection, you can now add the VM node(s) at MAAS webUI\n"
+read -p "Press any key to continue ..."
 #ssh-keygen -f ~/.ssh/id_rsa -N ''
 
 ##printf "Now copying the public key to the target node (from MAAS to KVM host in this case)\n"
@@ -196,7 +200,7 @@ chmod 755 maas-add-vm.sh
 # https://docs.maas.io/2.3/en/nodes-comp-hw
 # NOTE: user_name = User Name of KVM Host (ex. 'acd')
 # NOTE: ip_address = IP address of the host bridge (ex. br201 - 10.100.201.2) "
-clear
+printf "\n"
 printf "Completed adding VM node(s) to the MAAS at command line...\n"
 printf "\n"
 printf "\n"
