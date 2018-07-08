@@ -38,6 +38,6 @@ virsh -c qemu+ssh://$KVM_USER@$KVM_HOST/system list --all
 printf "Once connection has been checked, you can now exit MAAS shell\n"
 echo -n "Press 'Y' to exit, 'n' to stay at MAAS shell: "; read EXIT_SHELL
 EXIT_SHELL=$(echo $EXIT_SHELL | awk '{print toupper($0)}')
-if [[ EXIT_SHELL == 'Y' ]]; then
+if [[ $EXIT_SHELL == 'Y' ]]; then
    exit 
 fi
