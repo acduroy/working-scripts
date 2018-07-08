@@ -1,7 +1,14 @@
 #!/bin/bash
-printf "This script will add VM node(s) to the MAAS network\n"
-read -p "Presss any key to continue ..."
 #sudo apt install libvirt-bin -y
+printf "This script will add VM node(s) to the MAAS network\n"
+printf "Also, this script needs to be run under MAAS shell !!!\n"
+printf "Are you at MAAS shell environment ? [Y/n]: "; read ANS
+ANS=$(echo $ANS | awk '{print toupper($0)}')
+if [[ $ANS == "N" ]]; then
+   sudo chsh -s /bin/bash maas
+   sudo su - maas
+   exit 1
+fi
 #printf "Generating SSH private/pub key 'maas' user.. (in case no private/pub key generated)\n"
 #echo -n "Remember this is key pair for 'maas' user!!!!"
 #sudo chsh -s /bin/bash maas
