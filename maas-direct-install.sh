@@ -139,7 +139,7 @@ read -p "Press any key once enlisting and commissioning of server is completed, 
 clear
 printf "Installing packages needed to add VM node(s) into the MAAS ...\n"
 sudo apt install libvirt-bin -y
-
+read -p "Packages were installed successfully, press any key to continue ..."
 clear
 printf "Use the ff steps below to add virtual node via Pod. Do the ff at the command line.\n"
 echo -n "Press 'Y' to continue, 'n' to exit the program: ";read ADD_VM
