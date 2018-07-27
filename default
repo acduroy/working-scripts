@@ -1,0 +1,22 @@
+default vesamenu.c32
+#prompt 1
+timeout 600
+display boot.msg
+
+menu background splash.jpg
+menu title Welcome to the RHEL 7 PXE Installation
+label local
+menu label boot from "local drive"
+menu default
+localboot 0xffff
+
+label ks
+menu label  Automated RHEL 7.5 Installation Using ^KickStart
+kernel vmlinuz
+#append biosdevname=0 ksdevice=link load_ramdisk=1 initrd=initrd.img network ks=http://192.168.100.254/pub/rhel7/ws.fg noipv6
+append biosdevname=0 ksdevice=link load_ramdisk=1 initrd=initrd.img network ks=http://10.100.252.5/pub/rhel7/hwcert.cfg noipv6
+
+label si
+menu label RHEL 7 Standard Installation
+kernel vmlinuz
+append biosdevname=0 ksdevice=link load_ramdisk=1 initrd=initrd.img
