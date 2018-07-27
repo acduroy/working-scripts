@@ -194,6 +194,8 @@ sudo mount -o loop,ro -t iso9660 /<IMD>/<rhel-server-7.5-x86_64-dvd.iso> /$MP/
 	$ sudo rpm -ivh /mnt/rhel7-install/Packages/syslinux<tab>
 	$ sudo rpm -ivh /mnt/rhel7-install/Packages/xinetd<tab>
 	$ sudo rpm -ivh /mnt/rhel7-install/Packages/tftp-server<tab>
+	$ sudo rpm -ivh /mnt/rhel7-install/Packages/dhcp-4.2.5*.rpm
+	
 # Step 11. Create "pxelinux.cfg" directory into the /var/lib/tftpboot/ and copy "pxelinux.0" from /usr/shre/syslinux/pxelinux.0 to /var/lib/tftpboot/
 	$ sudo mkdir /var/lib/tftpboot/pxelinux.cfg
 	$ sudo cp /usr/share/syslinux/pxelinux.0  /var/lib/tftpboot/
@@ -223,8 +225,12 @@ service tftp
 	flags			= IPv4
 }
 
-# *************************
-	   
+# ************************
+
+$ sudo service xinetd restart
+$ sudo chkconfig xinetd on
+$ sudo /usr/share/doc/dhcp-4.2.5/dhcpd.conf.example /etc/dhcp/dhcpd.conf
+
 
 # Insert the media where the DVD iso image of the RHEL7 installation located
 # Once, the installation boot menu appeared, press the tab key. Enter at command line:
