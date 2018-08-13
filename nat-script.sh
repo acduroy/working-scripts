@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#This script will enable nat on a virtual machine with three (3) nic interfaces
+#This script will enable nat on a virtual machine with two (2) nic interfaces
 #install packages
 sudo apt-get install -y iptables-persistent
 
