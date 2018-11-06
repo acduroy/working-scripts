@@ -2,6 +2,7 @@
 
 #This script will enable nat on a virtual machine with two (2) nic interfaces
 #install packages
+sudo apt-get update
 sudo apt-get install -y iptables-persistent
 
 # Display network interfaces status
