@@ -1,0 +1,20 @@
+Ref: https://security.stackexchange.com/questions/167952/copy-ssh-public-key-from-windows-to-ubuntu
+Ref: http://cmder.net/ (download cmder console emulator
+
+How to copy SSH Public Key from Windows to Ubuntu
+1. EDIT Download cmder or use your favorite console emulator. Move your public key (id_rsa.pub) and your private key (id_rsa) to C:\Users\yourUserName\.ssh\ create the .ssh folder if needed.
+2. On your windows host via cmder:
+	$ cp C:\Users\yourUserName\.ssh\id_rsa.pub C:\Users\yourUserName\authorized_keys
+3. On your ubuntu host:
+	$ service ssh status #Start sshd if necessary
+	$ mkdir ~/.ssh/ (if it doesn't already exist)
+4. On your Windows host via cmder:
+	$ cd C:\Users\yourUserName\
+	$ scp authorized_keys login-id@ubuntu-Host-Ip:~/.ssh
+5. On your Ubuntu host:
+	$ chmod 700 ~/.ssh
+	$ chmod 600 ~/.ssh/authorized_keys
+6. On your Windows host via cmder:
+Test if you can ssh into your ubuntu host without login/pw auth. If yes:
+7. rm C:\Users\yourUserName\authorized_keys
+(you might encounter difficulties running your ssh-agent on windows, write a comment if so)
