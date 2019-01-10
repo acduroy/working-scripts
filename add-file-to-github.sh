@@ -14,7 +14,7 @@ usage(){
 } 
 
 # check number of arguments supplied by end-user
-[ $# == 0 ]] && usage
+[ $# -eq 0 ]] && usage
 
 # Steps to add a file to your github account:
 # 1. On your computer, move the file you'd like to upload to GitHub into the local directory that
