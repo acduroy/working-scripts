@@ -1,0 +1,263 @@
+SMIS# SMIS# show running-config 
+
+Building configuration...
+Switch ID   	Hardware Version         	Firmware Version    	OS Version  
+0           	SSE-X3348T Rev.1  (P5-01) 	1.0.6.3             	2.6.23.0.11 
+
+interface port-channel 45
+exit
+interface port-channel 47
+exit
+
+vlan 1
+  ports gi 0/1-2 untagged
+ ports qx 0/1-4 untagged
+exit
+vlan 2-500
+exit
+
+interface Ex 0/1
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/2
+[K--More--press q to quit--[K                [K switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/3
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/4
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/5
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/6
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+[K--More--press q to quit--[K                [Kinterface Ex 0/7
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/8
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/9
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/10
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/11
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+[K--More--press q to quit--[K                [K
+interface Ex 0/12
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/13
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/14
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/15
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/16
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+[K--More--press q to quit--[K                [K switchport mode trunk
+
+interface Ex 0/17
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/18
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/19
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/20
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/21
+ switchport trunk native vlan 100
+[K--More--press q to quit--[K                [K switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/22
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/23
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/24
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/25
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/26
+[K--More--press q to quit--[K                [K switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/27
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/28
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/29
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/30
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+[K--More--press q to quit--[K                [Kinterface Ex 0/31
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/32
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/33
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/34
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/35
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+[K--More--press q to quit--[K                [K
+interface Ex 0/36
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/37
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/38
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/39
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/40
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+[K--More--press q to quit--[K                [K switchport mode trunk
+
+interface Ex 0/41
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/42
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/43
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/44
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 1-500
+ switchport mode trunk
+
+interface Ex 0/45
+ channel-group 45 mode on
+[K--More--press q to quit--[K                [K
+interface Ex 0/46
+ channel-group 45 mode on
+
+interface Ex 0/47
+ channel-group 47 mode on
+
+interface Ex 0/48
+ channel-group 47 mode on
+
+interface po 45
+ switchport trunk native vlan 100
+ switchport mode trunk
+
+interface po 47
+ switchport trunk native vlan 100
+ switchport mode trunk
+
+exit
+interface vlan 1
+
+exit
+[27m                       SMIS# 

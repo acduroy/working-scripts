@@ -1,0 +1,64 @@
+  
+source /etc/network/interfaces.d/*
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eno1 
+iface  eno1 inet dhcp
+
+# 1Gb RJ45 bind with bridge br304 
+auto eno2
+iface  eno2 inet manual
+   up ifconfig eno2 promisc
+   down ifconfig eno2 -promisc
+#   address 10.100.210.2
+#   netmask 255.255.255.0
+#   broadcast 10.100.210.255
+
+# 10Gb RJ45 bind with bridge br204 
+auto ens2f0
+iface ens2f0 inet manual
+   up ifconfig ens2f0 promisc
+   down ifconfig ens2f0 -promisc
+
+# 10Gb RJ45 bind with bridge br305 (LTS/SUT RHEL7 network)
+auto ens2f1
+iface ens2f1 inet manual
+   up ifconfig ens2f1 promisc
+   down ifconfig ens2f1 -promisc
+
+#bridge network br204 (MAAS204 network)
+auto br204
+iface br204 inet static
+   address 10.100.204.2
+   netmask 255.255.255.0
+   broadcast 10.100.204.255
+   bridge_ports ens2f0 eno2 ens2f1  
+   bridge_stp off
+   bridge_fd 0
+   bridge_maxwait 0
+ 
+#bridge network br304 (PXE RHEL7 Network)
+#auto br304
+#iface br304 inet static
+#   address 10.100.254.2
+#   netmask 255.255.255.0
+#   broadcast 10.100.254.255
+#   bridge_ports eno2 #1Gb RJ45 NIC
+#   bridge_stp off
+#   bridge_fd 0
+#   bridge_maxwait 0
+
+#bridge network br305 (LTS/SUT RHEL7 Network)
+#auto br305
+#iface br305 inet static
+#   address 10.100.255.2
+#   netmask 255.255.255.0
+#   broadcast 10.100.255.255
+#   bridge_ports ens2f1 #10Gb RJ45 NIC
+#   bridge_stp off
+#   bridge_fd 0
+#   bridge_maxwait 0
+
