@@ -7,14 +7,14 @@
 
 # usage function
 usage(){
-  echo "The script needs the folder where to store the file"
-  echo "Pls rerun the script again using this format --> ./add-file-to-github.sh <folder-at-github>"
+  echo "The script does not needs any argument to run"
+  echo "Pls rerun the script again using this format --> ./add-file-to-github.sh"
   read -p "Press [enter-key] to continue, thanks ..."
   exit 1
 } 
 
 # check number of arguments supplied by end-user
-if [[ $# -eq 0 ]]
+if [[ $# -gt 0 ]]
 then
   usage
 fi 
@@ -39,7 +39,7 @@ git commit -m "Add existing file"
 # 6. Push the changes in your local repository to GitHub.
 
 # Pushes the changes in your local repository up to the remote repository you specified as the origin
-echo "Pls. enter the folder you want the file to be stored in your gisthub account [ex. working-scripts]: "; read YOUR-BRANCH
-git push origin $YOUR-BRANCH
+#echo "Pls. enter the folder you want the file to be stored in your gisthub account [ex. working-scripts]: "; read YOUR-BRANCH
+git push origin master
 
 echo "adding file to github is completed, thanks ..."
