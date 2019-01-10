@@ -7,14 +7,17 @@
 
 # usage function
 usage(){
-  echo "The script needs what folder to store the file to be added"
+  echo "The script needs the folder where to store the file"
   echo "Pls rerun the script again using this format --> ./add-file-to-github.sh <folder-at-github>"
   read -p "Press [enter-key] to continue, thanks ..."
   exit 1
 } 
 
 # check number of arguments supplied by end-user
-[ $# -eq 0 ]] && usage
+if [[ $# -eq 0 ]]
+then
+  usage
+fi 
 
 # Steps to add a file to your github account:
 # 1. On your computer, move the file you'd like to upload to GitHub into the local directory that
