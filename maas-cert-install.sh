@@ -10,8 +10,8 @@ before_reboot(){
 	cd
 	echo "Getting the update..."
 	sudo apt-get update
-	echo "Getting the dist-upgrade..."
-	sudo apt-get dist-upgrade -y
+#	echo "Getting the dist-upgrade..."
+#	sudo apt-get dist-upgrade -y
 }
 
 #********** after_reboot function ***********
