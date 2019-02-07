@@ -9,7 +9,7 @@ echo "In addition, a promiscus mode will apply on the bridge network interface"
 read -p "Press [Enter] key to continue..."
 
 #install the software #
-aptitude install bridge-utils
+apt-get install bridge-utils
 
 # show network interfaces #
 clear
@@ -38,7 +38,7 @@ brctl addif $BNAME $INT
 sudo cp /etc/network/interfaces /etc/network/interfaces.bak
 cat << BRIDGE | sudo tee /etc/network/interfaces
 
-source /etc/network/interfaces.d/*
+source /etc/network/interfaces.d/* <---- this should not be in desktop version??? (it's better to just append the original file)
 # The loopback network interface
 auto lo
 iface lo inet loopback
