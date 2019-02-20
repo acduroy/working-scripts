@@ -9,7 +9,7 @@ echo "In addition, a promiscus mode will apply on the bridge network interface"
 read -p "Press [Enter] key to continue..."
 
 #install the software #
-apt-get install bridge-utils
+sudo apt-get install bridge-utils
 
 # show network interfaces #
 clear
@@ -21,7 +21,7 @@ nslookup $str
 
 # Network info from User input here: #
 #echo -n "Enter External network interface to bridge [ex. eno1]: "; read EXT
-echo -n "Enter External network interface [ex. eno1]: "; read INT
+echo -n "Enter External network interface [ex. eno1]: "; read EXT
 echo -n "Enter Internal network interface to bridge [ex. eno2]: "; read INT
 echo -n "Enter bridge name [ex. br0]: "; read BNAME
 echo -n "Enter IP address of the bridge network: "; read IPADDR
