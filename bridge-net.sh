@@ -45,7 +45,7 @@ iface lo inet loopback
 
 # The primary network interface
 auto $EXT
-iface $EXT inet manual
+iface $EXT inet dhcp
 
 # The secondary network interface
 auto $INT
