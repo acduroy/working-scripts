@@ -1,0 +1,57 @@
+ubuntu@node1:~$ cat /etc/netplan/50-cloud-init.yaml
+# This file is generated from information provided by
+# the datasource.  Changes to it will not persist across an instance.
+# To disable cloud-init's network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+    version: 2
+    ethernets:
+        eno1:
+            addresses:
+            - 10.100.214.118/24
+            gateway4: 10.100.214.1
+            match:
+                macaddress: 0c:c4:7a:fc:26:88
+            mtu: 1500
+            nameservers:
+                addresses:
+                - 10.100.214.1
+                search:
+                - maas
+            set-name: eno1
+        eno2:
+            match:
+                macaddress: 0c:c4:7a:fc:26:89
+            mtu: 1500
+            set-name: eno2
+        eno3:
+            match:
+                macaddress: 0c:c4:7a:fc:26:8a
+            mtu: 1500
+            set-name: eno3
+        eno4:
+            match:
+                macaddress: 0c:c4:7a:fc:26:8b
+            mtu: 1500
+            set-name: eno4
+        enp175s0f0:
+            match:
+                macaddress: ac:1f:6b:8a:65:c6
+            mtu: 1500
+            set-name: enp175s0f0
+        enp175s0f1:
+            match:
+                macaddress: ac:1f:6b:8a:65:c7
+            mtu: 1500
+            set-name: enp175s0f1
+        enp216s0f0:
+            match:
+                macaddress: ac:1f:6b:8a:65:c0
+            mtu: 1500
+            set-name: enp216s0f0
+        enp216s0f1:
+            match:
+                macaddress: ac:1f:6b:8a:65:c1
+            mtu: 1500
+            set-name: enp216s0f1
