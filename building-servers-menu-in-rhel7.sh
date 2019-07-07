@@ -5,6 +5,18 @@
 
 clear
 
+function contextSwitch {
+	{
+	ctxt1=$(grep ctxt /proc/stat | awk '{print $2}')
+        echo 50
+	sleep 1
+        ctxt2=$(grep ctxt /proc/stat | awk '{print $2}')
+        ctxt=$(($ctxt2 - $ctxt1))
+        result="Number os context switches in the last secound: $ctxt"
+	echo $result > result
+	} | whiptail --gauge "Getting data ..." 6 60 0
+}
+
 while [ 1 ]
 do
 CHOICE=$(
