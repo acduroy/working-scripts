@@ -10,6 +10,8 @@ before_reboot(){
 	cd
 	echo "Getting the update..."
 	sudo apt-get update
+	sudo apt update
+	sudo apt upgrade -y
 #	echo "Getting the dist-upgrade..."
 #	sudo apt-get dist-upgrade -y
 }
@@ -19,6 +21,8 @@ after_reboot(){
 	cd
 	sudo apt-add-repository ppa:hardware-certification/public
 	sudo apt-get update
+	sudo apt update
+	sudo apt upgrade -y
         echo "installing the maas certification server..."
 	sudo apt-get install maas-cert-server
 	dpkg -s maas | grep Version
