@@ -83,6 +83,10 @@ BRIDGE
 sudo ip addr flush $INT
 sudo ifup $BNAME
 
+# Update netplan
+sudo netplan try
+sudo netplay apply
+
 #sudo ip addr flush $SEC_INT
 sudo services networking restart
 
