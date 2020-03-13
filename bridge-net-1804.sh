@@ -82,13 +82,12 @@ BRIDGE
 # Reset network interface #
 sudo ip addr flush $INT
 sudo ifup $BNAME
+sudo ip link set $BNAME up
+sudo ip link set $INT up
 
 # Update netplan
 sudo netplan try
 sudo netplay apply
-
-#sudo ip addr flush $SEC_INT
-sudo services networking restart
 
 # to verify bride is working !!! #
 brctl show
