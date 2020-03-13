@@ -27,7 +27,13 @@ echo -n "Enter External network interface [ex. eno1]: "; read EXT
 echo -n "Enter Internal network interface to bridge [ex. eno2]: "; read INT
 echo -n "Enter bridge name [ex. br0]: "; read BNAME
 echo -n "Enter IP address of the bridge network: "; read IPADDR
-echo -n "Enter broadcast IP address [ex. xx.xx.xx.255]: "; read BADDR
+echo -n "Enter Network Prefix [ex. 24]: "; read NP
+
+#assign default network prefix if no input from user
+if [[ -z $NP ]]; then
+  #use default value
+  $NP = 24
+fi
 
 # temporary name
 # create a bridge name
@@ -71,7 +77,7 @@ network:
     bridges:
         $BNAME:
             dhcp4: false
-            addresses: [$BADDR/24]
+            addresses: [$IPADDR/$NP]
             interfaces:
                 - $INT
     version: 2
