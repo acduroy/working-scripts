@@ -34,7 +34,7 @@ echo -n "Enter broadcast IP address [ex. xx.xx.xx.255]: "; read BADDR
 sudo brctl addbr $BNAME
 
 # Add the interfaces to be bridged #
-brctl addif $BNAME $INT
+sudo brctl addif $BNAME $INT
 
 # Setup network config file #
 sudo cp /etc/netplan/50-cloud-init.yaml /etc/netplan/50-cloud-init.yaml.bak
