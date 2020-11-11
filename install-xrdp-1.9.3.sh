@@ -9,7 +9,14 @@
 # Modification: incorporate the fix to re-install xserver package
 # Date: Jan 14, 2019
 # Written by: A. Duroy
-# Version: 1.9.3
+# Version: 1.9.3#
+# Note:
+# If encountered command error, execute below commands
+# 1. sudo apt-get install dos2unix
+# 2. dos2unix [file]
+#
+#
+#
 ##################################################################
 #----------------------------------------------------------------#
 # Step 0 - Try to Detect Ubuntu Version and Unity....
