@@ -6,18 +6,15 @@
 # Web Site :http://www.c-nergy.be - http://www.c-nergy.be/blog
 # Version : 1.9.2
 # Disclaimer : Script provided AS IS. Use it at your own risk....
-
 # Modification: incorporate the fix to re-install xserver package
 # Date: Jan 14, 2019
 # Written by: A. Duroy
 # Version: 1.9.3
 ##################################################################
-
 #----------------------------------------------------------------#
 # Step 0 - Try to Detect Ubuntu Version and Unity....
 #----------------------------------------------------------------#
 clear
-#Checking Ubuntu Version
 echo
 /bin/echo -e "\e[1;32m!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\e[0m"
 /bin/echo -e "\e[1;32m Dectecting Ubuntu Version and Desktop in use...\e[0m"
