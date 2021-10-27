@@ -1,0 +1,7 @@
+osd1
+osd2
+osd3
+osd4
+mon1
+mon2
+mon3
