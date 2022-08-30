@@ -26,7 +26,7 @@ clear
 
 #Global Default Values
 CLUSTER_DN=polab				
-working_dir=/home/kapl/
+working_dir=/home/kapl/dryrun-alec
 
 display_usage() { 
 	echo "This script must be run with super-user privileges." 
@@ -69,7 +69,15 @@ function check_preinstall (){
 	# extract ip addresses of control node via ../config/cluster-node-info
 	IP_ADDR1=$(cat $cn_info | grep -i "${HN}" | awk '{print $5}' | awk '{print $1}' FS=";" | awk '{print $2}' FS="/")
 	IP_ADDR2=$(cat $cn_info | grep -i "${HN}" | awk '{print $5}' | awk '{print $2}' FS=";" | awk '{print $2}' FS="/")
-	echo "ip address #1 = $IP_ADDR1"
+
+    # check for empty ip address 
+    if [[ $IP_ADDR1 == "" && $IP_ADDR2 == ""  ]]; then
+      echo "Unable to retrieve info from cluster-node-info !!!"
+      echo "Check for correct hostname or ip addresses assign to hosts ..."  
+      exit
+    fi
+	
+    echo "ip address #1 = $IP_ADDR1"
 	echo "ip address #2 = $IP_ADDR2"
 	printf "\n"
 	
