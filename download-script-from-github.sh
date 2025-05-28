@@ -11,6 +11,7 @@ while [ -n $FILE ]; do
       output_file="reset-hostname-and-ip.sh"
       curl -s -L -o "$output_file" "$raw_url"
       echo "File downloaded successfully to $output_file"
+      break
       ;;
     "extract-mac-address")
       echo "Downloading the script to retrieve the MAC addresses for Weka installation"
@@ -18,6 +19,7 @@ while [ -n $FILE ]; do
       output_file="extract-mac-addresses.sh"
       curl -s -L -o "$output_file" "$raw_url"
       echo "File downloaded successfully to $output_file"
+      break
       ;; 
     *)
       echo "Invalid argument"
@@ -25,4 +27,6 @@ while [ -n $FILE ]; do
       ;;
   esac
 done
+
+exit 0
 

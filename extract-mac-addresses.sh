@@ -15,9 +15,58 @@ create_header() {
   echo "Date,Chassis Serial,Product Name,Node Serial,Mellanox Type,Hostname,Data IP MacAddresses" >> report.csv
 }
 
+# Function to get network devices from user input
+get_iface_device() {
+  local -n list_devices=$1
+  
+  printf "\n" 
+  echo "*******************"
+  echo "List of interfaces:"
+  for dev in ${list_devices[@]}; do 
+      printf '%4s%s\n' '' "-> ${dev}"
+  done
+  echo "******************"
+  printf "\n"
+  read -p "Enter device names space-seperated [ex. eno1 eno2]: " user_input
+  printf "\n"
+  selected_devices=($user_input)
+  
+  # convert string to array, variable user_input to if_name
+  #IFS=' ' read -r -a selected_devices <<< "$user_input"
+    
+  valid=true
+
+  for input in "${selected_devices[@]}"; do
+    found=false
+    for option in "${list_devices[@]}"; do
+      if [[ "$input" == "$option" ]]; then
+        found=true
+        break
+      fi
+    done
+    if ! $found; then
+      printf "\n"
+      echo "Invalid input: $input"
+      valid=false
+    fi
+  done
+  
+  if $valid; then
+    printf "\n"
+    #echo "All inputs are valid."
+  else
+    printf "\n"
+    echo "Invalid input(s) found."
+  fi  
+  #printf "\n"
+  #echo "You've selected interface device names -> ${selected_devices[@]}"
+  list_devices=("${selected_devices[@]}")
+}
+
 # Function to add data to the CSV Report 
 add_data() {
   FILE=$1
+  local netdev
 
   # Date:
   DT=$(cat $FILE | grep -a "Date" | head -1 | cut -d"_" -f20,21,22)
@@ -37,9 +86,15 @@ add_data() {
   # Hostname
   HN=$(cat $FILE | grep -a "Hostname" | head -1 | cut -d"_" -f16)
 
-  # retrieve mac addresses of CX7 
-  DIP1=$(cat $FILE | grep -a "ens2f0np0" -A1 | grep -i "ether" | cut -d" " -f6)
-  DIP2=$(cat $FILE | grep -a "ens2f1np1" -A1 | grep -i "ether" | cut -d" " -f6)
+  # retrieve MAC Addresses for CX7
+  if [[ FLAG -eq 0 ]]; then
+    netdev=($(cat $FILE | grep -a "BROADCAST" | cut -d":" -f2))
+    get_iface_device netdev
+    declare -p netdev
+    netdev_select=("${netdev[@]}") 
+  fi
+  DIP1=$(cat $FILE | grep -a "${netdev_select[0]}" -A1 | grep -i "ether" | cut -d" " -f6)
+  DIP2=$(cat $FILE | grep -a "${netdev_select[1]}" -A1 | grep -i "ether" | cut -d" " -f6)
 
   echo "$DT,$CSN,$PN,$NS,$MT,$HN,$DIP1,$DIP2" >> report.csv
 }
@@ -48,6 +103,7 @@ add_data() {
 # Main function
 #*****************
 
+FLAG=0
 # Check for help flag
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
   usage
@@ -58,7 +114,7 @@ if [[ ! -f report.csv ]]; then
   touch report.csv
 fi
 
-# Add data rows
+# Check for no argument 
 if [[ $# -eq 0 ]]; then
   # Extract all files found in the folder
   DIR=$(pwd)
@@ -66,7 +122,9 @@ if [[ $# -eq 0 ]]; then
   echo -n "" > report.csv
   create_header 
   for file in $DIR/WEKA*; do
-    add_data $file
+    # Add data rows
+    add_data $file 
+    FLAG=1
   done
 else
   # Extract the provided file	
