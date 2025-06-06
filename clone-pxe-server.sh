@@ -20,7 +20,7 @@ echo "SSH key generated at $KEY_PATH"
 # Get the parttion files from source
 sudo mkdir $HOME/clone-pxe-environment
 cd $HOME/clone-pxe-environment
-scp smci@172.17.1.214:/pxe-weka-rocky/* .
+sudo scp smci@172.17.1.214:$HOME/pxe-weka-rocky/* .
 
 # List all available drives
 sudo lsblk -d -o NAME | grep -E '^(sd|nvme)'
